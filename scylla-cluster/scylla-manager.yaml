@@ -1,0 +1,8 @@
+http: 0.0.0.0:5080
+
+database:
+  hosts:
+    - rs-scylla-sc1
+    - rs-scylla-sc2
+    - rs-scylla-sc3
+  replication_factor: 3

@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+
+  rs-scylla-manager:
+    image: scylladb/scylla-manager
+    container_name: rs-scylla-manager
+    ports:
+      - "5080:5080"
+    volumes:
+      - ./cluster-data/rs-scylla-manager:/var/lib/scylla-manager
+      - ./scylla-manager.yaml:/etc/scylla-manager/scylla-manager.yaml
+    networks:
+      - rs-scylla-net
+    depends_on:
+      - rs-scylla-sc1
+      - rs-scylla-sc2
+      - rs-scylla-sc3
+
+  rs-scylla-sc1:
+    image: scylladb/scylla
+    container_name: rs-scylla-sc1
+    volumes:
+      - ./cluster-data/rs-scylla-sc1/:/var/lib/scylla 
+    networks:
+      - rs-scylla-net
+    ports:
+      - "9042:9042"
+      - "10001:10001"
+    command: --smp 2 
+
+  rs-scylla-sc2:
+    image: scylladb/scylla
+    container_name: rs-scylla-sc2
+    depends_on:
+      - rs-scylla-sc1
+    volumes:
+      - ./cluster-data/rs-scylla-sc2/:/var/lib/scylla
+    ports:
+      - "9043:9042"
+    networks:
+      - rs-scylla-net
+    command: --seeds=rs-scylla-sc1  --smp 2 
+
+  rs-scylla-sc3:
+    image: scylladb/scylla
+    container_name: rs-scylla-sc3
+    depends_on:
+      - rs-scylla-sc1
+    volumes:
+      - ./cluster-data/rs-scylla-sc3/:/var/lib/scylla
+    ports:
+      - "9045:9042"
+    networks:
+      - rs-scylla-net
+    command: --seeds=rs-scylla-sc1   --smp 2 
+
+networks:
+  rs-scylla-net:
