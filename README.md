@@ -1,6 +1,6 @@
 # Rust & ScyllaDB Cluster [Docker]
 
-This is example of getting started rust and scylladb cluster on docker.
+This is example of getting started with rust grpc and scylladb cluster on docker.
 
 ## What's inside
 
