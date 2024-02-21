@@ -1,4 +1,4 @@
-# Rust & ScyllaDB with Docker Cluster
+# Rust & ScyllaDB Cluster [Docker]
 
 This is example of getting started rust and scylladb cluster on docker.
 
